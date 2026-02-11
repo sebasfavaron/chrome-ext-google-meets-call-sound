@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Meeting Alert</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+    }
+    .container {
+      text-align: center;
+      padding: 40px;
+      max-width: 500px;
+    }
+    .bell {
+      font-size: 64px;
+      animation: ring 0.5s ease-in-out infinite alternate;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+    @keyframes ring {
+      from { transform: rotate(-15deg); }
+      to { transform: rotate(15deg); }
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      word-break: break-word;
+    }
+    .time {
+      font-size: 18px;
+      opacity: 0.85;
+      margin-bottom: 32px;
+    }
+    button {
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.5);
+      color: #fff;
+      padding: 12px 32px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: rgba(255,255,255,0.3); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="bell">&#128276;</div>
+    <h1 id="title">Meeting starting soon</h1>
+    <p class="time" id="time"></p>
+    <button id="dismiss">Dismiss</button>
+  </div>
+  <script src="sound.js"></script>
+</body>
+</html>
