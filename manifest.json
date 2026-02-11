@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Meeting Sound Alert",
+  "version": "1.0.0",
+  "description": "Plays a sound 1 minute before Google Calendar meetings",
+  "permissions": ["identity", "alarms", "storage"],
+  "oauth2": {
+    "client_id": "350986034097-ap7to0usfnkg7529heiuuh13qgri0h9m.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/calendar.readonly"]
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

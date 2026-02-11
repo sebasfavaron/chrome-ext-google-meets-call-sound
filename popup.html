@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      width: 300px;
+      padding: 16px;
+      background: #fff;
+      color: #333;
+    }
+    h2 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #5f6368;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .status {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    .status.ok { background: #e8f5e9; color: #2e7d32; }
+    .status.warn { background: #fff3e0; color: #e65100; }
+    .event {
+      background: #f5f5f5;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .event-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .event-time {
+      font-size: 13px;
+      color: #5f6368;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .signin {
+      background: #4285f4;
+      color: #fff;
+    }
+    .signin:hover { background: #3367d6; }
+    .signout {
+      background: #f5f5f5;
+      color: #5f6368;
+      font-size: 12px;
+    }
+    .signout:hover { background: #e0e0e0; }
+    #no-events {
+      font-size: 14px;
+      color: #5f6368;
+      padding: 12px 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="signed-out">
+    <h2>Meeting Sound Alert</h2>
+    <p style="font-size:13px;color:#5f6368;margin-bottom:12px;">Sign in to get alerts 1 min before your Google Calendar meetings.</p>
+    <button class="signin" id="signin-btn">Sign in with Google</button>
+  </div>
+
+  <div id="signed-in" style="display:none;">
+    <h2>Meeting Sound Alert</h2>
+    <div class="status ok" id="status">Monitoring your calendar</div>
+    <div id="next-event"></div>
+    <p id="no-events" style="display:none;">No upcoming meetings in the next 5 minutes.</p>
+    <button class="signout" id="signout-btn">Sign out</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
