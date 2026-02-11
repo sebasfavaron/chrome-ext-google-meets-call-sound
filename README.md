@@ -1,3 +1,7 @@
+
+https://github.com/user-attachments/assets/8fc40124-bba0-4a8d-8938-0827bdae93d6
+
+
 # Meeting Sound Alert — Chrome Extension
 
 Plays an alarm sound 1 minute before your Google Calendar meetings. Opens a new tab with a synthesized chime so it bypasses browser autoplay restrictions.
