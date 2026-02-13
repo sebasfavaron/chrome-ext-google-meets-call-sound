@@ -40,6 +40,18 @@ function playChime() {
 playChime();
 loopInterval = setInterval(playChime, 1500);
 
+const meetLink = params.get('meetLink');
+const joinBtn = document.getElementById('join');
+if (meetLink) {
+  joinBtn.style.display = '';
+  joinBtn.addEventListener('click', () => {
+    window.open(meetLink, '_blank');
+    clearInterval(loopInterval);
+    ctx.close();
+    window.close();
+  });
+}
+
 document.getElementById('dismiss').addEventListener('click', () => {
   clearInterval(loopInterval);
   ctx.close();

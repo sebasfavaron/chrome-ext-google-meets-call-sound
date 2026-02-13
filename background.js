@@ -108,11 +108,16 @@ async function checkUpcomingEvents() {
     // Alert if event starts within 1 minute and hasn't been notified
     if (timeUntil <= ALERT_BEFORE_MS && timeUntil > -ALERT_BEFORE_MS && !notified[event.id]) {
       notified[event.id] = now;
+      const meetLink = event.hangoutLink || '';
       const params = new URLSearchParams({
         title: event.summary || 'Untitled Meeting',
         time: startStr,
+        meetLink,
       });
       chrome.tabs.create({ url: `sound.html?${params}` });
+      if (meetLink) {
+        chrome.tabs.create({ url: meetLink });
+      }
     }
   }
 
