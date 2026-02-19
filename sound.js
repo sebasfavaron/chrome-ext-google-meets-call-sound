@@ -25,7 +25,7 @@ function playChime() {
     osc.frequency.value = freq;
 
     const onset = i * 0.12;
-    gain.gain.setValueAtTime(0.6, now + onset);
+    gain.gain.setValueAtTime(0.3, now + onset);
     gain.gain.setValueAtTime(0, now + onset + 0.1); // staccato cut
 
     osc.connect(gain);
