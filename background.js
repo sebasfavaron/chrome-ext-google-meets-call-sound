@@ -114,10 +114,10 @@ async function checkUpcomingEvents() {
         time: startStr,
         meetLink,
       });
-      chrome.tabs.create({ url: `sound.html?${params}` });
       if (meetLink) {
         chrome.tabs.create({ url: meetLink });
       }
+      chrome.tabs.create({ url: `sound.html?${params}` });
     }
   }
 
