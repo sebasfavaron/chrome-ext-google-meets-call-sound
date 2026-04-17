@@ -15,6 +15,7 @@
       --muted: #88cdbd;
       --danger: #ff6b57;
       --sweep-duration: 3.2s;
+      --contact-phase: calc(var(--sweep-duration) * 0.074);
     }
 
     * { box-sizing: border-box; }
@@ -96,32 +97,24 @@
       opacity: 0.95;
     }
 
-    .ping,
-    .ping::before,
-    .ping::after {
-      position: absolute;
-      border-radius: 50%;
-      border: 2px solid rgba(139, 255, 227, 0.45);
-      box-shadow: 0 0 22px rgba(139, 255, 227, 0.18);
-      animation: pingWave 3s ease-out infinite;
-    }
-
     .ping {
-      width: 22px;
-      height: 22px;
+      position: absolute;
+      width: 16px;
+      height: 16px;
       left: 58%;
       top: 34%;
-      animation-delay: 0s;
+      border-radius: 50%;
+      background: var(--glow-strong);
+      box-shadow: 0 0 12px var(--glow), 0 0 28px rgba(123,255,216,0.65);
+      opacity: 0;
+      animation: contactBlip var(--sweep-duration) linear infinite;
+      animation-delay: var(--contact-phase);
     }
 
     .ping::before,
     .ping::after {
-      content: "";
-      inset: -2px;
+      content: none;
     }
-
-    .ping::before { animation-delay: 1s; }
-    .ping::after { animation-delay: 2s; }
 
     .panel {
       position: relative;
@@ -209,6 +202,9 @@
       border-radius: 50%;
       background: var(--glow-strong);
       box-shadow: 0 0 12px var(--glow), 0 0 28px rgba(123,255,216,0.65);
+      opacity: 0;
+      animation: contactBlip var(--sweep-duration) linear infinite;
+      animation-delay: var(--contact-phase);
     }
 
     .text h1 {
@@ -307,10 +303,22 @@
       to { transform: rotate(360deg); }
     }
 
-    @keyframes pingWave {
-      0% { transform: scale(0.2); opacity: 0.85; }
-      75% { opacity: 0.14; }
-      100% { transform: scale(9); opacity: 0; }
+    @keyframes contactBlip {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+        filter: brightness(1.3);
+      }
+      42% {
+        opacity: 0;
+        transform: scale(0.82);
+        filter: brightness(0.9);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.82);
+        filter: brightness(0.9);
+      }
     }
 
     @keyframes alertFlash {
