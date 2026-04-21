@@ -1,10 +1,10 @@
 
-https://github.com/user-attachments/assets/8fc40124-bba0-4a8d-8938-0827bdae93d6
+https://github.com/user-attachments/assets/ee0081c0-7e70-4483-96bc-32688224b23f
 
 
 # Meeting Sound Alert — Chrome Extension
 
-Plays an alarm sound 1 minute before your Google Calendar meetings. Opens a new tab with a synthesized chime so it bypasses browser autoplay restrictions.
+Plays an alarm sound 1 minute before your Google Calendar meetings. Opens a new tab with a sonar sound so it bypasses browser autoplay restrictions.
 
 ## Install
 
@@ -19,7 +19,7 @@ That's it. The extension checks your calendar every minute and opens an alert ta
 ## How it works
 
 - Polls Google Calendar API every 60 seconds via a background service worker
-- 1 minute before a meeting → opens a new tab that plays an urgent chime on loop
+- 1 minute before a meeting → opens a new tab that plays an alarm on loop
 - Click **Dismiss** to close the alert
 - All-day events are ignored
 - No duplicate alerts — each event only triggers once
