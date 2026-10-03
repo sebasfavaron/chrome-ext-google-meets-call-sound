@@ -21,6 +21,7 @@ That's it. The extension checks your calendar every minute and opens an alert ta
 - Polls Google Calendar API every 60 seconds via a background service worker
 - 1 minute before a meeting → opens a new tab that plays an alarm on loop
 - 11 minutes before a meeting whose title contains the word "daily" → same alert, plus a checklist to prepare the status report (closed / taking today / blockers). It rings once, at the early time, not again at the 1-minute mark
+- Sound only plays for meetings starting Monday–Friday, 08:00–19:00 (local time). Outside that window the alert tab still opens, silent
 - Click **Dismiss** to close the alert
 - All-day events are ignored
 - No duplicate alerts — each event only triggers once

@@ -3,6 +3,7 @@ const title = params.get('title') || 'Meeting';
 const time = params.get('time');
 
 const isDaily = params.get('daily') === '1';
+const isSilent = params.get('silent') === '1';
 
 document.getElementById('title').textContent = title;
 if (time) {
@@ -41,7 +42,11 @@ function playAlert() {
   });
 }
 
-playAlert();
+if (isSilent) {
+  document.getElementById('beacon').textContent = 'Muted';
+} else {
+  playAlert();
+}
 
 const meetLink = params.get('meetLink');
 const joinBtn = document.getElementById('join');

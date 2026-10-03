@@ -4,6 +4,9 @@ const ALERT_BEFORE_MS = 60 * 1000; // 1 minute
 const DAILY_EXTRA_LEAD_MS = 10 * 60 * 1000; // dailies ring 10 minutes earlier, to leave time to prepare
 const LOOKAHEAD_MS = 20 * 60 * 1000; // covers the earliest alert a daily can trigger
 const DAILY_TITLE = /\bdaily\b/i;
+const SOUND_DAYS = [1, 2, 3, 4, 5];
+const SOUND_START_HOUR = 8;
+const SOUND_END_HOUR = 19;
 const CLEANUP_AGE_MS = 24 * 60 * 60 * 1000; // 1 day
 
 // Must register alarm listener at top level (MV3 requirement)
@@ -23,6 +26,11 @@ chrome.runtime.onStartup.addListener(() => {
   chrome.alarms.create(ALARM_NAME, { periodInMinutes: POLL_INTERVAL_MINUTES });
   checkUpcomingEvents();
 });
+
+function isWithinSoundHours(date) {
+  const hour = date.getHours();
+  return SOUND_DAYS.includes(date.getDay()) && hour >= SOUND_START_HOUR && hour < SOUND_END_HOUR;
+}
 
 async function getAuthToken(interactive = false) {
   return new Promise((resolve, reject) => {
@@ -119,6 +127,7 @@ async function checkUpcomingEvents() {
         time: startStr,
         meetLink,
         daily: isDaily ? '1' : '',
+        silent: isWithinSoundHours(new Date(startMs)) ? '' : '1',
       });
       chrome.tabs.create({ url: `sound.html?${params}` });
     }
