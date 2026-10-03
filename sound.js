@@ -2,10 +2,23 @@ const params = new URLSearchParams(window.location.search);
 const title = params.get('title') || 'Meeting';
 const time = params.get('time');
 
+const isDaily = params.get('daily') === '1';
+
 document.getElementById('title').textContent = title;
 if (time) {
   const d = new Date(time);
-  document.getElementById('time').textContent = 'Starts at ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const at = 'Starts at ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const minutesAway = Math.round((d.getTime() - Date.now()) / 60000);
+  document.getElementById('time').textContent =
+    minutesAway > 1 ? `${at} — ${minutesAway} min out` : at;
+}
+
+if (isDaily) {
+  document.getElementById('mode').textContent = 'Standup Prep';
+  document.getElementById('alert-line').textContent = 'Daily Inbound — Prep Window Open';
+  document.getElementById('sub').textContent =
+    'Early warning so the report is ready before the channel opens.';
+  document.getElementById('prep').hidden = false;
 }
 
 let alertAudio = null;

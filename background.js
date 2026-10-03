@@ -1,7 +1,9 @@
 const ALARM_NAME = 'check-calendar';
 const POLL_INTERVAL_MINUTES = 1;
 const ALERT_BEFORE_MS = 60 * 1000; // 1 minute
-const LOOKAHEAD_MS = 5 * 60 * 1000; // 5 minutes
+const DAILY_EXTRA_LEAD_MS = 10 * 60 * 1000; // dailies ring 10 minutes earlier, to leave time to prepare
+const LOOKAHEAD_MS = 20 * 60 * 1000; // covers the earliest alert a daily can trigger
+const DAILY_TITLE = /\bdaily\b/i;
 const CLEANUP_AGE_MS = 24 * 60 * 60 * 1000; // 1 day
 
 // Must register alarm listener at top level (MV3 requirement)
@@ -105,14 +107,18 @@ async function checkUpcomingEvents() {
     const startMs = new Date(startStr).getTime();
     const timeUntil = startMs - now;
 
-    // Alert if event starts within 1 minute and hasn't been notified
-    if (timeUntil <= ALERT_BEFORE_MS && timeUntil > -ALERT_BEFORE_MS && !notified[event.id]) {
+    const isDaily = DAILY_TITLE.test(event.summary || '');
+    const leadMs = isDaily ? ALERT_BEFORE_MS + DAILY_EXTRA_LEAD_MS : ALERT_BEFORE_MS;
+
+    // Alert once the event is within its lead time, and only while it is still starting
+    if (timeUntil <= leadMs && timeUntil > -ALERT_BEFORE_MS && !notified[event.id]) {
       notified[event.id] = now;
       const meetLink = event.hangoutLink || '';
       const params = new URLSearchParams({
         title: event.summary || 'Untitled Meeting',
         time: startStr,
         meetLink,
+        daily: isDaily ? '1' : '',
       });
       chrome.tabs.create({ url: `sound.html?${params}` });
     }

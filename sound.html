@@ -244,6 +244,38 @@
       max-width: 44ch;
     }
 
+    .prep {
+      margin-top: 20px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--glow);
+      border-radius: 10px;
+      padding: 14px 18px;
+      background: rgba(10, 40, 48, 0.55);
+      max-width: 52ch;
+    }
+
+    .prep-title {
+      margin: 0 0 10px;
+      color: var(--glow-strong);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .prep ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.8;
+      opacity: 0.92;
+    }
+
+    .prep li::marker {
+      color: var(--glow);
+    }
+
     .footer {
       position: relative;
       border-top: 1px solid var(--line);
@@ -348,17 +380,26 @@
     <div class="hud">
       <div>Vessel: <strong>SB-01</strong></div>
       <div>Station: <strong>Seas Command</strong></div>
-      <div>Mode: <strong>Meeting Intercept</strong></div>
+      <div>Mode: <strong id="mode">Meeting Intercept</strong></div>
     </div>
 
     <section class="content">
       <div class="scope" aria-hidden="true"></div>
 
       <div class="text">
-        <p class="alert-line">Incoming Contact Detected</p>
+        <p class="alert-line" id="alert-line">Incoming Contact Detected</p>
         <h1 id="title">Meeting starting soon</h1>
         <p class="time" id="time"></p>
-        <p class="sub">Active sonar contact acquired. Bridge requests immediate attention. Join channel or dismiss alarm.</p>
+        <p class="sub" id="sub">Active sonar contact acquired. Bridge requests immediate attention. Join channel or dismiss alarm.</p>
+
+        <div class="prep" id="prep" hidden>
+          <p class="prep-title">Prepare your status report</p>
+          <ul>
+            <li>What you closed since the last daily</li>
+            <li>What you are taking today</li>
+            <li>What is blocking you, and who unblocks it</li>
+          </ul>
+        </div>
       </div>
     </section>
 
