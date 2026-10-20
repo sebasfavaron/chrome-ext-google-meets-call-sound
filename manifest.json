@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Meeting Sound Alert",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Plays a sound 1 minute before Google Calendar meetings, 11 minutes before dailies",
   "permissions": [
     "identity",

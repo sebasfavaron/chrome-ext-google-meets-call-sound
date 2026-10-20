@@ -2,6 +2,24 @@ const signedOutEl = document.getElementById('signed-out');
 const signedInEl = document.getElementById('signed-in');
 const nextEventEl = document.getElementById('next-event');
 const noEventsEl = document.getElementById('no-events');
+const statusEl = document.getElementById('status');
+
+function minutesAgo(ms) {
+  const minutes = Math.round((Date.now() - ms) / 60000);
+  return minutes <= 0 ? 'just now' : `${minutes} min ago`;
+}
+
+function renderStatus(pollStatus) {
+  const lastOk = pollStatus?.lastOkAt ? minutesAgo(pollStatus.lastOkAt) : null;
+  if (pollStatus?.lastError) {
+    statusEl.className = 'status warn';
+    statusEl.textContent =
+      `Calendar check failing: ${pollStatus.lastError}. Last success: ${lastOk || 'never'}.`;
+  } else {
+    statusEl.className = 'status ok';
+    statusEl.textContent = `Monitoring your calendar · ${lastOk ? `last checked ${lastOk}` : 'not checked yet'}`;
+  }
+}
 
 async function checkAuth() {
   try {
@@ -26,7 +44,8 @@ async function showSignedIn() {
   signedOutEl.style.display = 'none';
   signedInEl.style.display = 'block';
 
-  const stored = await chrome.storage.local.get('nextEvent');
+  const stored = await chrome.storage.local.get(['nextEvent', 'pollStatus']);
+  renderStatus(stored.pollStatus);
   if (stored.nextEvent) {
     const d = new Date(stored.nextEvent.startTime);
     nextEventEl.textContent = '';
@@ -54,7 +73,10 @@ async function showSignedIn() {
 
 document.getElementById('signin-btn').addEventListener('click', () => {
   chrome.identity.getAuthToken({ interactive: true }, (token) => {
-    if (token) showSignedIn();
+    if (!token) return;
+    showSignedIn();
+    // Check right away so the status and badge reflect the new sign-in
+    chrome.runtime.sendMessage({ type: 'check-now' }).then(showSignedIn, () => {});
   });
 });
 

@@ -4,14 +4,17 @@ const time = params.get('time');
 
 const isDaily = params.get('daily') === '1';
 const isSilent = params.get('silent') === '1';
+const isLate = time ? new Date(time).getTime() - Date.now() < -30 * 1000 : false;
 
 document.getElementById('title').textContent = title;
 if (time) {
   const d = new Date(time);
   const at = 'Starts at ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const minutesAway = Math.round((d.getTime() - Date.now()) / 60000);
-  document.getElementById('time').textContent =
-    minutesAway > 1 ? `${at} — ${minutesAway} min out` : at;
+  let when = at;
+  if (minutesAway > 1) when = `${at} — ${minutesAway} min out`;
+  else if (minutesAway < 0) when = `${at} — started ${-minutesAway} min ago`;
+  document.getElementById('time').textContent = when;
 }
 
 if (isDaily) {
@@ -20,6 +23,11 @@ if (isDaily) {
   document.getElementById('sub').textContent =
     'Early warning so the report is ready before the channel opens.';
   document.getElementById('prep').hidden = false;
+}
+
+if (isLate) {
+  // Late alert (computer was asleep, Chrome was closed): the meeting is already running
+  document.getElementById('alert-line').textContent = 'Contact Overdue — Channel Already Open';
 }
 
 let alertAudio = null;

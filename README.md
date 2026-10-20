@@ -16,18 +16,34 @@ Plays an alarm sound 1 minute before your Google Calendar meetings, and 11 minut
 
 That's it. The extension checks your calendar every minute and opens an alert tab with sound when a meeting is about to start.
 
+**After pulling changes:** open `chrome://extensions` and click the reload icon on the extension card.
+
 ## How it works
 
-- Polls Google Calendar API every 60 seconds via a background service worker
+- Polls Google Calendar every 60 seconds for the next 6 hours of events, and sets one Chrome alarm per event at its alert time. The alarm rings from stored data, so a network or sign-in hiccup right before a meeting doesn't swallow the alert
 - 1 minute before a meeting → opens a new tab that plays an alarm on loop
 - 11 minutes before a meeting whose title contains the word "daily" → same alert, plus a checklist to prepare the status report (closed / taking today / blockers). It rings once, at the early time, not again at the 1-minute mark
+- If Chrome was asleep or closed at the alert time, the alert still opens up to 5 minutes after the meeting started, showing "started N min ago"
 - Sound only plays for meetings starting Monday–Friday, 08:00–19:00 (local time). Outside that window the alert tab still opens, silent
+- If no tab can be opened (no normal Chrome window), it opens a new window instead
 - Click **Dismiss** to close the alert
-- All-day events are ignored
-- No duplicate alerts — each event only triggers once
+- Skipped: all-day events, meetings you declined, and Focus time / Out of office / Working location blocks
+- No duplicate alerts — each event triggers once; if it's moved to a new time, it alerts again at the new time
+
+## When checks fail
+
+If two checks in a row fail during working hours (signed out, token revoked, offline), the toolbar icon shows a red **!**. The popup says when the last successful check was and the error. It clears on the next successful check.
+
+## Tests
+
+```bash
+node --test
+```
+
+Runs `test-background.mjs`: loads `background.js` with a stubbed `chrome`, `fetch` and clock. No dependencies, no Google calls.
 
 ## Permissions
 
 - **Google Calendar** (read-only) — to check your upcoming events
-- **Alarms** — to poll on a schedule
+- **Alarms** — to poll on a schedule and to ring at each meeting's alert time
 - **Storage** — to track which events have been notified
